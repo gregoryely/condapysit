@@ -1,4 +1,5 @@
 # based on build with anaconda with python 2.7
+
 FROM continuumio/anaconda
 
 RUN apt-get update
@@ -53,3 +54,5 @@ WORKDIR /pysit/
 RUN pip install -r pip-requirements 
 RUN python setup.py build
 RUN python setup.py install
+
+# changed file name
