@@ -23,3 +23,5 @@ docker pull gregoryely/condapysit
 docker run -it -e DISPLAY=docker.for.mac.localhost:0 gregoryely/condapysit
 #docker run -it -e DISPLAY=docker.for.mac.localhost:0 --name vol-test -h CONTANER -v /data gregoryely/condapysit
 2.  you are now inside the docker container!
+
+currently pulls petsc 3.8.1
