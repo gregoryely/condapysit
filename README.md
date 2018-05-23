@@ -17,6 +17,7 @@ first download Docker and setup an account from https://www.docker.com/
 #this could take a few minutes as the image is roughly two gigs.
 docker pull gregoryely/condapysit
 
-## To run it 
-
+## To run it:
+1.  Run the docker image interactivly with graphics forwarded to your local machine
 docker run -it -e DISPLAY=docker.for.mac.localhost:0 gregoryely/condapysit
+2.  you are now inside the docker container!
