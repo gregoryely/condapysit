@@ -19,5 +19,7 @@ docker pull gregoryely/condapysit
 
 ## To run it:
 1.  Run the docker image interactivly with graphics forwarded to your local machine
+
 docker run -it -e DISPLAY=docker.for.mac.localhost:0 gregoryely/condapysit
+#docker run -it -e DISPLAY=docker.for.mac.localhost:0 --name vol-test -h CONTANER -v /data gregoryely/condapysit
 2.  you are now inside the docker container!
