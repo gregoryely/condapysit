@@ -29,8 +29,9 @@ RUN conda install -y mpi4py
 RUN mkdir /pysit_dep/
 WORKDIR /pysit_dep/
 RUN git clone http://bitbucket.org/petsc/petsc
-RUN git fetch && git checkout 3.8.1 #newer version of pysit has some problems with petsc extension
+
 WORKDIR /pysit_dep/petsc/
+RUN git fetch && git checkout maint-3.8 #newer version of pysit has some problems with petsc extension
 RUN ./configure PETSC_ARCH=mpich-complex --with-scalar-type=complex --download-{mumps,scalapack,superlu,superlu_dist,parmetis,metis,fblaslapack}
 RUN make
 
