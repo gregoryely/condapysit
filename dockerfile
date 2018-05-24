@@ -24,6 +24,12 @@ RUN conda install -y pyamg
 RUN conda install -y make
 RUN conda install -y mpi4py
 
+RUN apt-get install -y libgl1-mesa-glx #lib gl got messed up.
+
+# pull pysit reop and install dependencies, wait to actually install
+RUN git clone https://github.com/gregoryely/pysit.git
+WORKDIR /pysit/
+RUN pip install -r pip-requirements 
 
 # Now install Petsc 
 RUN mkdir /pysit_dep/
@@ -48,13 +54,25 @@ RUN  python setup.py build
 RUN  python setup.py install
 
 # Install Pysit
-RUN apt-get install -y libgl1-mesa-glx #lib gl got messed up.
-WORKDIR /
-RUN git clone https://github.com/gregoryely/pysit.git
+#RUN apt-get install -y libgl1-mesa-glx #lib gl got messed up.
 WORKDIR /pysit/
-
 RUN pip install -r pip-requirements 
 RUN python setup.py build
 RUN python setup.py install
 
+# remake petsc I could not geth this to work without doing this....
 # changed file name
+WORKDIR /pysit_dep/petsc/
+RUN ./configure PETSC_ARCH=mpich-complex --with-scalar-type=complex --download-{mumps,scalapack,superlu,superlu_dist,parmetis,metis,fblaslapack}
+RUN make
+
+WORKDIR /pysit_dep/petsc4py
+RUN  python setup.py build
+RUN  python setup.py install
+
+WORKDIR /pysit/
+RUN python setup.py build
+RUN python setup.py install
+
+
+
