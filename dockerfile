@@ -31,7 +31,7 @@ WORKDIR /pysit_dep/
 RUN git clone http://bitbucket.org/petsc/petsc
 
 WORKDIR /pysit_dep/petsc/
-RUN git fetch && git checkout maint-3.8 #newer version of pysit has some problems with petsc extension
+#RUN git fetch && git checkout maint
 RUN ./configure PETSC_ARCH=mpich-complex --with-scalar-type=complex --download-{mumps,scalapack,superlu,superlu_dist,parmetis,metis,fblaslapack}
 RUN make
 
@@ -43,13 +43,14 @@ ENV PETSC_ARCH="mpich-complex"
 WORKDIR /pysit_dep/
 RUN git clone http://bitbucket.org/petsc/petsc4py
 WORKDIR /pysit_dep/petsc4py
+#RUN git fetch && git checkout maint-3.8
 RUN  python setup.py build
 RUN  python setup.py install
 
 # Install Pysit
 RUN apt-get install -y libgl1-mesa-glx #lib gl got messed up.
 WORKDIR /
-RUN git clone https://github.com/pysit/pysit
+RUN git clone https://github.com/gregoryely/pysit.git
 WORKDIR /pysit/
 
 RUN pip install -r pip-requirements 
