@@ -43,3 +43,4 @@ RUN git clone http://bitbucket.org/petsc/petsc4py
 # copy the setup shell script.
 # this script needs to be run interactively or else petsc fails to pull the correct dependencies
 COPY setup.sh /
+COPY example_pysit_nb.ipynb /home/
