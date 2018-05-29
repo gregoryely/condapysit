@@ -1,27 +1,13 @@
 # condapysit
-Docker file for pysit installed on top of an anaconda 2.7 image.  This image contains a ready to go container that will allow you run pysit ( http://pysit.org/ ) with minimal setup.
+Docker file(s) for pysit installed on top of an anaconda 2.7 image.  This image contains a ready to go container that will allow you run pysit ( http://pysit.org/ ) with minimal setup.  To install the image see ( https://hub.docker.com/r/gregoryely/condapysit/ ) where the image is stored.
 
-## Setting up graphics
-If you want to be able to see plots from within the container you will need to setup x11 forwarding on a mac.  see for detailed instructions ( https://sourabhbajaj.com/blog/2017/02/07/gui-applications-docker-mac/ ) or use the abbrivatied instructions below.
 
-1. Install Xquartz from https://www.xquartz.org/ if you don't have it installed already.
-2. Open Xquartz and in the "security" tab make sure  “Allow connections from network clients”  is enabled.
-3. In a terminal run: xhost + 127.0.0.1
-  This will allow the container to forward your display to 
+## Instructions for building image
+If you want to build the pysit image from scratch instead of pulling an image from  ( https://hub.docker.com/r/gregoryely/condapysit/ ) follow these steps once you have docker installed.  Petsc is unable to pull the dependencies from a dockerfile build and instead needs to installed from within the image.
 
-## To install:
-
-first download Docker and setup an account from https://www.docker.com/
-
-#open a terminal to pull the image from docker hub to your machine:
-#this could take a few minutes as the image is roughly two gigs.
-docker pull gregoryely/condapysit
-
-## To run it:
-1.  Run the docker image interactivly with graphics forwarded to your local machine
-
-docker run -it -e DISPLAY=docker.for.mac.localhost:0 gregoryely/condapysit
-#docker run -it -e DISPLAY=docker.for.mac.localhost:0 --name vol-test -h CONTANER -v /data gregoryely/condapysit
-2.  you are now inside the docker container!
-
-currently pulls petsc 3.8.1
+1. Clone this repository ```https://github.com/gregoryely/condapysit.git```
+2. Build the image from the dockerfile ```docker build -t mycondapysit```
+3. Run the image interactively ```docker run --name mypysit -it myinstance``` you are now inside the container instance called myinstance
+4. Install petsc, petsc4py and pysit ```source setup.sh```
+5. Commit the current instance as a new image called mynewdockerimage.  From another terminal ```docker commit myinstance mynewdockerimage```
+6. Done!  you can now push the new image to your own dockerhub repostitory.
