@@ -26,53 +26,20 @@ RUN conda install -y mpi4py
 
 RUN apt-get install -y libgl1-mesa-glx #lib gl got messed up.
 
-# pull pysit reop and install dependencies, wait to actually install
+# pull all git repo and install dependencies, wait to actually install
 RUN git clone https://github.com/gregoryely/pysit.git
 WORKDIR /pysit/
 RUN pip install -r pip-requirements 
 
-# Now install Petsc 
-RUN mkdir /pysit_dep/
-WORKDIR /pysit_dep/
+# pull petsc
+WORKDIR /
 RUN git clone http://bitbucket.org/petsc/petsc
 
-WORKDIR /pysit_dep/petsc/
-#RUN git fetch && git checkout maint
-RUN ./configure PETSC_ARCH=mpich-complex --with-scalar-type=complex --download-{mumps,scalapack,superlu,superlu_dist,parmetis,metis,fblaslapack}
-RUN make
-
-# Install petsc4py
-ENV PETSC_DIR="/pysit_dep/petsc/"
+# pull petsc4py
+ENV PETSC_DIR="/petsc/"
 ENV PETSC_ARCH="mpich-complex"
-#ENV PETSC_ARCH="arch-darwin-c-debug"
-
-WORKDIR /pysit_dep/
 RUN git clone http://bitbucket.org/petsc/petsc4py
-WORKDIR /pysit_dep/petsc4py
-#RUN git fetch && git checkout maint-3.8
-RUN  python setup.py build
-RUN  python setup.py install
 
-# Install Pysit
-#RUN apt-get install -y libgl1-mesa-glx #lib gl got messed up.
-WORKDIR /pysit/
-RUN pip install -r pip-requirements 
-RUN python setup.py build
-RUN python setup.py install
-
-# remake petsc I could not geth this to work without doing this....
-# changed file name
-WORKDIR /pysit_dep/petsc/
-RUN ./configure PETSC_ARCH=mpich-complex --with-scalar-type=complex --download-{mumps,scalapack,superlu,superlu_dist,parmetis,metis,fblaslapack}
-RUN make
-
-WORKDIR /pysit_dep/petsc4py
-RUN  python setup.py build
-RUN  python setup.py install
-
-WORKDIR /pysit/
-RUN python setup.py build
-RUN python setup.py install
-
-
-
+# copy the setup shell script.
+# this script needs to be run interactively or else petsc fails to pull the correct dependencies
+COPY setup.sh /
