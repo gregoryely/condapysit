@@ -1,6 +1,6 @@
 # based on build with anaconda with python 2.7
 
-FROM continuumio/anaconda
+FROM continuumio/anaconda:5.2.0
 
 RUN apt-get update
 RUN apt-get install -y vim # for editing files etc.
